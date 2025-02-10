@@ -5,10 +5,12 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.PageLoadStrategy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
@@ -20,6 +22,7 @@ public class WebTest
     @BeforeEach
     public void setup() {
         ChromeOptions options = new ChromeOptions();
+//        options.setPageLoadStrategy(PageLoadStrategy.NONE);
         options.addArguments("--headless=new");
         driver = new ChromeDriver(options);
     }
@@ -49,6 +52,7 @@ public class WebTest
         var loginBreadCrumb = driver.findElement(By.xpath("//*[@id=\"account-login\"]/nav/ol/li[3]"));
         var wait = new WebDriverWait(driver, Duration.ofSeconds(2));
         wait.until(_ -> loginBreadCrumb.isDisplayed());
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id=\"account-login\"]/nav/ol/li[3]")));
         assertEquals("https://ecommerce-playground.lambdatest.io/index.php?route=account/login", driver.getCurrentUrl());
     }
 }
